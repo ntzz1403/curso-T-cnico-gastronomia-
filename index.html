@@ -2,40 +2,45 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Jogo de EPIs - Gastronomia</title>
+<title>Jogo EPIs - Gastronomia</title>
 
 <style>
     body {
         margin: 0;
         font-family: Arial, sans-serif;
         background: linear-gradient(120deg, #fff3e0, #ffe0b2);
-        overflow-x: hidden;
     }
 
+    /* TELA INICIAL */
     #tela-inicial {
         height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: url('https://images.unsplash.com/photo-1556911220-bff31c812dba') center/cover;
-        color: white;
         text-align: center;
+        color: white;
+        background: url("https://images.unsplash.com/photo-1556911220-bff31c812dba") center/cover;
     }
 
     #tela-inicial h1 {
-        font-size: 40px;
-        text-shadow: 2px 2px 5px black;
+        font-size: 42px;
+        text-shadow: 2px 2px 6px black;
+    }
+
+    #tela-inicial p {
+        text-shadow: 1px 1px 4px black;
     }
 
     button {
-        padding: 15px 30px;
+        margin-top: 20px;
+        padding: 14px 28px;
         font-size: 18px;
         border: none;
-        cursor: pointer;
+        border-radius: 10px;
         background: #ff6f00;
         color: white;
-        border-radius: 10px;
+        cursor: pointer;
         transition: 0.3s;
     }
 
@@ -44,28 +49,32 @@
         background: #e65100;
     }
 
-    #quiz-container {
+    /* QUIZ */
+    #quiz {
         display: none;
-        padding: 20px;
         max-width: 800px;
         margin: auto;
+        padding: 20px;
     }
 
     .card {
         background: white;
+        margin-top: 40px;
         padding: 20px;
-        margin-top: 30px;
         border-radius: 15px;
-        box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-        animation: slideUp 0.4s ease;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        animation: aparecer 0.4s ease;
+    }
+
+    h2 {
+        margin-bottom: 20px;
     }
 
     .opcao {
-        display: block;
-        margin: 10px 0;
-        padding: 12px;
         background: #fff3e0;
-        border-radius: 8px;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 10px;
         cursor: pointer;
         transition: 0.3s;
         font-weight: bold;
@@ -81,148 +90,174 @@
         font-weight: bold;
     }
 
-    .certo { color: green; }
-    .errado { color: red; }
+    .certo {
+        color: green;
+        animation: pulse 0.4s;
+    }
 
-    @keyframes slideUp {
-        from {transform: translateY(20px); opacity: 0;}
-        to {transform: translateY(0); opacity: 1;}
+    .errado {
+        color: red;
+        animation: shake 0.4s;
+    }
+
+    @keyframes aparecer {
+        from {opacity: 0; transform: translateY(20px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes pulse {
+        0% {transform: scale(1);}
+        50% {transform: scale(1.1);}
+        100% {transform: scale(1);}
+    }
+
+    @keyframes shake {
+        0% {transform: translateX(0);}
+        25% {transform: translateX(-5px);}
+        50% {transform: translateX(5px);}
+        75% {transform: translateX(-5px);}
+        100% {transform: translateX(0);}
     }
 </style>
 </head>
 
 <body>
 
+<!-- TELA INICIAL -->
 <div id="tela-inicial">
     <h1>Jogo de EPIs na Gastronomia</h1>
     <p>Segurança no ambiente de cozinha profissional</p>
-    <button onclick="iniciarJogo()">Jogar</button>
+    <button onclick="iniciar()">Jogar</button>
 </div>
 
-<div id="quiz-container">
+<!-- QUIZ -->
+<div id="quiz">
     <div class="card">
         <h2 id="pergunta"></h2>
         <div id="opcoes"></div>
         <div id="feedback"></div>
-        <button onclick="proximaPergunta()" id="btn-proxima" style="display:none; margin-top:10px;">
-            Próxima
-        </button>
+        <button id="proxima" style="display:none;" onclick="proxima()">Próxima</button>
     </div>
 </div>
 
 <script>
 const perguntas = [
     {
-        pergunta: "Qual EPI evita queimaduras na cozinha?",
+        pergunta: "Qual EPI protege contra queimaduras na cozinha?",
         correta: "Luvas térmicas",
-        opcoes: ["Luvas térmicas", "Relógio", "Brincos", "Pulseira"]
+        opcoes: ["Luvas térmicas", "Relógio", "Brinco", "Pulseira"]
     },
     {
         pergunta: "O que evita cortes ao usar facas?",
         correta: "Luvas de proteção",
-        opcoes: ["Luvas de proteção", "Pano de prato", "Toalha", "Avental comum"]
+        opcoes: ["Luvas de proteção", "Pano de prato", "Toalha", "Guardanapo"]
     },
     {
         pergunta: "Qual a função do avental?",
         correta: "Proteger o corpo contra sujeira e calor",
-        opcoes: ["Apenas estética", "Proteger o corpo contra sujeira e calor", "Decoração", "Identificação de chefe"]
+        opcoes: ["Estética", "Proteger o corpo contra sujeira e calor", "Decoração", "Identificação de cargo"]
     },
     {
-        pergunta: "Qual atitude é correta no fogão?",
+        pergunta: "Qual atitude correta no fogão?",
         correta: "Manter atenção total",
-        opcoes: ["Usar celular", "Conversar distraído", "Manter atenção total", "Virar de costas"]
+        opcoes: ["Usar celular", "Se distrair", "Conversar olhando para outro lado", "Manter atenção total"]
     },
     {
-        pergunta: "Qual protege os pés na cozinha?",
-        correta: "Sapato antiderrapante fechado",
-        opcoes: ["Chinelo", "Sandália", "Sapato antiderrapante fechado", "Descalço"]
+        pergunta: "Qual EPI protege os pés?",
+        correta: "Sapato fechado antiderrapante",
+        opcoes: ["Chinelo", "Sandália", "Descalço", "Sapato fechado antiderrapante"]
     },
     {
-        pergunta: "Por que prender o cabelo?",
+        pergunta: "Por que prender o cabelo na cozinha?",
         correta: "Evitar contaminação e acidentes",
-        opcoes: ["Moda", "Evitar contaminação e acidentes", "Não precisa", "Para ficar bonito"]
+        opcoes: ["Estilo", "Evitar contaminação e acidentes", "Não precisa", "Moda"]
     },
     {
-        pergunta: "O que fazer ao derramar óleo?",
+        pergunta: "O que fazer ao derramar óleo no chão?",
         correta: "Limpar imediatamente",
-        opcoes: ["Esperar secar", "Ignorar", "Limpar imediatamente", "Cobrir com pano e deixar"]
+        opcoes: ["Ignorar", "Esperar secar", "Cobrir e deixar", "Limpar imediatamente"]
     },
     {
         pergunta: "Qual risco de não usar EPI?",
         correta: "Acidentes e contaminação",
-        opcoes: ["Mais rapidez", "Acidentes e contaminação", "Nenhum risco", "Menos trabalho"]
+        opcoes: ["Mais rapidez", "Nenhum risco", "Acidentes e contaminação", "Menos trabalho"]
     },
     {
-        pergunta: "Objetivo da segurança do trabalho?",
+        pergunta: "Qual objetivo da segurança do trabalho?",
         correta: "Prevenir acidentes",
-        opcoes: ["Aumentar riscos", "Prevenir acidentes", "Reduzir higiene", "Aumentar bagunça"]
+        opcoes: ["Aumentar riscos", "Prevenir acidentes", "Reduzir higiene", "Bagunçar o ambiente"]
     },
     {
-        pergunta: "O que evitar na cozinha?",
+        pergunta: "O que deve ser evitado na cozinha?",
         correta: "Distrações e brincadeiras",
-        opcoes: ["Organização", "Higiene", "Distrações e brincadeiras", "Trabalho em equipe"]
+        opcoes: ["Organização", "Higiene", "Trabalho em equipe", "Distrações e brincadeiras"]
     }
 ];
 
 let atual = 0;
-let respostaCorreta = "";
+let corretaAtual = "";
 
-function iniciarJogo() {
+function iniciar() {
     document.getElementById("tela-inicial").style.display = "none";
-    document.getElementById("quiz-container").style.display = "block";
-    carregarPergunta();
+    document.getElementById("quiz").style.display = "block";
+    carregar();
 }
 
 function embaralhar(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
-function carregarPergunta() {
-    let p = perguntas[atual];
-    document.getElementById("pergunta").innerText = p.pergunta;
+function carregar() {
+    let q = perguntas[atual];
+    corretaAtual = q.correta;
 
-    let opcoes = embaralhar([...p.opcoes]);
-    respostaCorreta = p.correta;
+    document.getElementById("pergunta").innerText = q.pergunta;
 
+    let opcoes = embaralhar([...q.opcoes]);
     let letras = ["A", "B", "C", "D"];
+
     let container = document.getElementById("opcoes");
-
     container.innerHTML = "";
+
     document.getElementById("feedback").innerHTML = "";
-    document.getElementById("btn-proxima").style.display = "none";
+    document.getElementById("proxima").style.display = "none";
 
-    opcoes.forEach((opcao, index) => {
+    opcoes.forEach((op, i) => {
         let div = document.createElement("div");
-        div.classList.add("opcao");
-        div.innerText = letras[index] + ") " + opcao;
+        div.className = "opcao";
+        div.innerText = letras[i] + ") " + op;
 
-        div.onclick = () => verificarResposta(opcao);
+        div.onclick = () => responder(op);
         container.appendChild(div);
     });
 }
 
-function verificarResposta(resposta) {
-    let feedback = document.getElementById("feedback");
+function responder(resposta) {
+    let fb = document.getElementById("feedback");
 
-    if(resposta === respostaCorreta) {
-        feedback.innerHTML = "✔ Vocês acertaram!";
-        feedback.className = "certo";
+    if(resposta === corretaAtual) {
+        fb.innerHTML = "✔ Vocês acertaram!";
+        fb.className = "certo";
     } else {
-        feedback.innerHTML = "✘ Vocês erraram! A resposta correta é: " + respostaCorreta;
-        feedback.className = "errado";
+        fb.innerHTML = "✘ Vocês erraram! A resposta correta é: " + corretaAtual;
+        fb.className = "errado";
     }
 
-    document.getElementById("btn-proxima").style.display = "block";
+    document.getElementById("proxima").style.display = "block";
 }
 
-function proximaPergunta() {
+function proxima() {
     atual++;
 
     if(atual < perguntas.length) {
-        carregarPergunta();
+        carregar();
     } else {
-        document.getElementById("quiz-container").innerHTML =
-        "<div class='card'><h2>Fim do jogo!</h2><p>Boa! Vocês aprenderam EPIs na gastronomia.</p></div>";
+        document.getElementById("quiz").innerHTML = `
+            <div class="card">
+                <h2>Fim do jogo!</h2>
+                <p>Vocês concluíram o quiz sobre EPIs na gastronomia.</p>
+            </div>
+        `;
     }
 }
 </script>
