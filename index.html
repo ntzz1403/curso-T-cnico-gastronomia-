@@ -2,13 +2,13 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Quiz Gastronomia Profissional</title>
+<title>Quiz EPIs - Gastronomia</title>
 
 <style>
     body {
         margin: 0;
-        font-family: "Arial", sans-serif;
-        background: radial-gradient(circle at top, #1a1a1a, #000000);
+        font-family: Arial, sans-serif;
+        background: radial-gradient(circle at top, #1b1b1b, #000);
         color: #f5f5f5;
         height: 100vh;
         display: flex;
@@ -17,28 +17,28 @@
         overflow: hidden;
     }
 
-    /* brilho dourado sutil no fundo */
+    /* brilho suave fundo */
     body::before {
         content: "";
         position: absolute;
-        width: 400px;
-        height: 400px;
-        background: rgba(212, 175, 55, 0.15);
+        width: 350px;
+        height: 350px;
+        background: rgba(212,175,55,0.12);
         filter: blur(120px);
-        top: -100px;
-        left: -100px;
+        top: -80px;
+        left: -80px;
         animation: float 6s infinite alternate;
     }
 
     body::after {
         content: "";
         position: absolute;
-        width: 500px;
-        height: 500px;
-        background: rgba(255, 255, 255, 0.05);
-        filter: blur(140px);
-        bottom: -150px;
-        right: -150px;
+        width: 400px;
+        height: 400px;
+        background: rgba(255,255,255,0.04);
+        filter: blur(130px);
+        bottom: -120px;
+        right: -120px;
         animation: float2 7s infinite alternate;
     }
 
@@ -56,26 +56,26 @@
         position: relative;
         width: 90%;
         max-width: 750px;
-        background: rgba(20,20,20,0.85);
-        border: 1px solid rgba(212, 175, 55, 0.4);
-        border-radius: 18px;
+        background: rgba(25,25,25,0.9);
+        border: 1px solid rgba(212,175,55,0.25);
+        border-radius: 16px;
         padding: 30px;
         box-shadow: 0 0 40px rgba(0,0,0,0.8);
         backdrop-filter: blur(10px);
-        animation: fadeIn 0.6s ease;
+        animation: fadeIn 0.5s ease;
     }
 
     h1 {
         text-align: center;
-        color: #d4af37; /* dourado Michelin */
-        letter-spacing: 2px;
+        color: #d4af37;
         margin-bottom: 10px;
+        font-size: 24px;
     }
 
     h2 {
         text-align: center;
+        font-size: 18px;
         font-weight: normal;
-        font-size: 20px;
     }
 
     button {
@@ -83,12 +83,12 @@
         padding: 12px;
         margin: 8px 0;
         border-radius: 10px;
-        border: 1px solid rgba(212,175,55,0.3);
+        border: 1px solid rgba(212,175,55,0.25);
         background: rgba(255,255,255,0.05);
-        color: #fff;
+        color: white;
         cursor: pointer;
-        font-size: 15px;
         transition: 0.3s;
+        font-size: 15px;
     }
 
     button:hover {
@@ -99,7 +99,7 @@
 
     .start-btn {
         background: #d4af37;
-        color: #000;
+        color: black;
         font-weight: bold;
     }
 
@@ -108,32 +108,32 @@
     }
 
     .correct {
-        background: rgba(46, 204, 113, 0.3) !important;
+        background: rgba(46,204,113,0.25) !important;
         border-color: #2ecc71 !important;
     }
 
     .wrong {
-        background: rgba(231, 76, 60, 0.3) !important;
+        background: rgba(231,76,60,0.25) !important;
         border-color: #e74c3c !important;
     }
 
     .feedback {
         text-align: center;
         margin-top: 15px;
-        font-size: 18px;
-        animation: pop 0.4s ease;
+        font-size: 16px;
         color: #d4af37;
+        animation: pop 0.3s ease;
     }
 
     .hidden { display: none; }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
+        from { opacity: 0; transform: scale(0.97); }
         to { opacity: 1; transform: scale(1); }
     }
 
     @keyframes pop {
-        from { transform: scale(0.7); opacity: 0; }
+        from { transform: scale(0.8); opacity: 0; }
         to { transform: scale(1); opacity: 1; }
     }
 
@@ -146,9 +146,9 @@
 
     <!-- TELA INICIAL -->
     <div id="start-screen">
-        <h1>QUIZ GASTRONOMIA PROFISSIONAL</h1>
-        <h2>Segurança em Cozinhas de Alto Padrão</h2>
-        <button class="start-btn" onclick="startGame()">INICIAR EXPERIÊNCIA</button>
+        <h1>Quiz – EPIs na Gastronomia</h1>
+        <h2>Atividade em grupo sobre segurança em cozinha profissional</h2>
+        <button class="start-btn" onclick="startGame()">Começar</button>
     </div>
 
     <!-- QUIZ -->
@@ -160,113 +160,64 @@
 
     <!-- FINAL -->
     <div id="end-screen" class="hidden">
-        <h1>AVALIAÇÃO FINALIZADA</h1>
+        <h1>Resultado Final</h1>
         <p id="result" style="text-align:center;"></p>
-        <button class="start-btn" onclick="location.reload()">REINICIAR EXPERIÊNCIA</button>
+        <button class="start-btn" onclick="location.reload()">Jogar novamente</button>
     </div>
 
 </div>
 
 <script>
+
 const questions = [
     {
-        q: "Em uma cozinha Michelin, qual EPI é indispensável ao manusear frituras em alta temperatura?",
-        options: [
-            "Luvas térmicas profissionais",
-            "Luvas descartáveis finas",
-            "Pano de algodão úmido",
-            "Nenhuma proteção"
-        ],
+        q: "Em uma cozinha profissional, qual EPI é indispensável ao lidar com óleo quente?",
+        options: ["Luvas térmicas", "Luvas descartáveis", "Pano de prato", "Luvas de tecido fino"],
         correct: 0
     },
     {
-        q: "Qual a principal função da touca em uma cozinha de alto padrão?",
-        options: [
-            "Garantir padrão de higiene e evitar contaminação",
-            "Apenas estética do uniforme",
-            "Evitar calor na cabeça",
-            "Substituir o uso de máscara"
-        ],
+        q: "Qual é a função principal da touca na cozinha?",
+        options: ["Evitar contaminação por cabelo", "Evitar calor", "Padronizar uniforme", "Decoração"],
         correct: 0
     },
     {
-        q: "Em pisos de cozinha profissional, qual é a exigência mais importante?",
-        options: [
-            "Calçado antiderrapante certificado",
-            "Sapato social",
-            "Chinelo fechado",
-            "Qualquer tênis esportivo"
-        ],
+        q: "Qual calçado é obrigatório em cozinha profissional?",
+        options: ["Sapato antiderrapante", "Chinelo", "Sandália aberta", "Tênis de tecido leve"],
         correct: 0
     },
     {
-        q: "Em cozinhas de alto nível, o maior risco do óleo quente está relacionado a:",
-        options: [
-            "Queimaduras e respingos graves",
-            "Perda de sabor dos alimentos",
-            "Mudança de textura dos pratos",
-            "Aumento de tempo de preparo"
-        ],
+        q: "Qual situação exige proteção ocular?",
+        options: ["Fritura com óleo quente", "Corte de legumes frios", "Montagem de pratos", "Lavagem de louça"],
         correct: 0
     },
     {
-        q: "O uso de EPIs em restaurantes Michelin tem como objetivo principal:",
-        options: [
-            "Segurança alimentar e proteção do chef",
-            "Aumentar a velocidade de serviço",
-            "Reduzir custo operacional",
-            "Substituir boas práticas de higiene"
-        ],
+        q: "O que evita contaminação cruzada?",
+        options: ["Trocar luvas corretamente", "Usar a mesma tábua sempre", "Não lavar mãos", "Misturar alimentos crus e prontos"],
         correct: 0
     },
     {
-        q: "Qual prática é considerada incorreta em uma cozinha profissional de alto padrão?",
-        options: [
-            "Uso de acessórios pessoais durante o preparo",
-            "Troca constante de luvas",
-            "Higienização das mãos",
-            "Uniforme completo limpo"
-        ],
+        q: "Função do avental na cozinha:",
+        options: ["Proteger contra respingos", "Substituir luvas", "Evitar quedas", "Decoração"],
         correct: 0
     },
     {
-        q: "Qual EPI ajuda diretamente a evitar contaminação cruzada?",
-        options: [
-            "Luvas descartáveis trocadas corretamente",
-            "Avental decorativo",
-            "Boné casual",
-            "Relógio de pulso"
-        ],
+        q: "Qual prática é correta em cozinha profissional?",
+        options: ["Higienizar mãos constantemente", "Usar anéis", "Usar pulseiras", "Não trocar luvas"],
         correct: 0
     },
     {
-        q: "Em cozinha Michelin, o avental representa principalmente:",
-        options: [
-            "Proteção contra respingos e padrão profissional",
-            "Substituição de luvas",
-            "Proteção contra quedas",
-            "Elemento de luxo visual apenas"
-        ],
+        q: "Luvas descartáveis são usadas principalmente para:",
+        options: ["Alimentos prontos", "Limpeza do chão", "Forno quente", "Fritura intensa"],
         correct: 0
     },
     {
-        q: "Qual o maior risco da falta de EPIs em cozinha profissional?",
-        options: [
-            "Acidentes e contaminação alimentar",
-            "Redução de criatividade culinária",
-            "Aumento de sabor dos pratos",
-            "Melhora na apresentação visual"
-        ],
+        q: "Maior risco da falta de EPIs:",
+        options: ["Acidentes e contaminação", "Mais velocidade", "Melhor sabor", "Menos trabalho"],
         correct: 0
     },
     {
-        q: "Em serviço de alta gastronomia, o que é absolutamente proibido?",
-        options: [
-            "Uso de anéis, pulseiras ou acessórios",
-            "Uso de touca",
-            "Uso de uniforme limpo",
-            "Higienização constante das mãos"
-        ],
+        q: "Qual atitude é proibida na cozinha profissional?",
+        options: ["Usar acessórios pessoais", "Usar uniforme limpo", "Higienizar mãos", "Usar touca"],
         correct: 0
     }
 ];
@@ -307,12 +258,12 @@ function checkAnswer(index, btn) {
 
     if (index === q.correct) {
         btn.classList.add("correct");
-        feedback.innerHTML = "✔ Resposta correta.";
+        feedback.innerHTML = "✔ Correto!";
         score++;
     } else {
         btn.classList.add("wrong");
         buttons[q.correct].classList.add("correct");
-        feedback.innerHTML = "❌ Vocês erraram. A resposta correta é destacada.";
+        feedback.innerHTML = "❌ Vocês erraram! A resposta correta está destacada.";
     }
 
     setTimeout(() => {
@@ -323,11 +274,12 @@ function checkAnswer(index, btn) {
             document.getElementById("quiz-screen").classList.add("hidden");
             document.getElementById("end-screen").classList.remove("hidden");
             document.getElementById("result").innerText =
-                `Vocês acertaram ${score} de ${questions.length} questões.`;
+                `Vocês acertaram ${score} de ${questions.length} perguntas.`;
         }
-    }, 1500);
+    }, 1400);
 }
+
 </script>
 
 </body>
-    </html>
+</html>
