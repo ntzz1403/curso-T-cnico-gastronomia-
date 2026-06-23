@@ -12,7 +12,6 @@
         overflow-x: hidden;
     }
 
-    /* Tela inicial */
     #tela-inicial {
         height: 100vh;
         display: flex;
@@ -22,7 +21,6 @@
         background: url('https://images.unsplash.com/photo-1556911220-bff31c812dba') center/cover;
         color: white;
         text-align: center;
-        animation: fadeIn 1.5s ease;
     }
 
     #tela-inicial h1 {
@@ -46,7 +44,6 @@
         background: #e65100;
     }
 
-    /* Quiz */
     #quiz-container {
         display: none;
         padding: 20px;
@@ -60,21 +57,23 @@
         margin-top: 30px;
         border-radius: 15px;
         box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-        animation: slideUp 0.5s ease;
+        animation: slideUp 0.4s ease;
     }
 
     .opcao {
         display: block;
         margin: 10px 0;
-        padding: 10px;
+        padding: 12px;
         background: #fff3e0;
         border-radius: 8px;
         cursor: pointer;
         transition: 0.3s;
+        font-weight: bold;
     }
 
     .opcao:hover {
         background: #ffe0b2;
+        transform: scale(1.02);
     }
 
     #feedback {
@@ -82,52 +81,24 @@
         font-weight: bold;
     }
 
-    .certo {
-        color: green;
-        animation: pulse 0.5s;
-    }
-
-    .errado {
-        color: red;
-        animation: shake 0.4s;
-    }
-
-    @keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity: 1;}
-    }
+    .certo { color: green; }
+    .errado { color: red; }
 
     @keyframes slideUp {
-        from {transform: translateY(30px); opacity: 0;}
+        from {transform: translateY(20px); opacity: 0;}
         to {transform: translateY(0); opacity: 1;}
-    }
-
-    @keyframes pulse {
-        0% {transform: scale(1);}
-        50% {transform: scale(1.1);}
-        100% {transform: scale(1);}
-    }
-
-    @keyframes shake {
-        0% {transform: translateX(0);}
-        25% {transform: translateX(-5px);}
-        50% {transform: translateX(5px);}
-        75% {transform: translateX(-5px);}
-        100% {transform: translateX(0);}
     }
 </style>
 </head>
 
 <body>
 
-<!-- TELA INICIAL -->
 <div id="tela-inicial">
     <h1>Jogo de EPIs na Gastronomia</h1>
-    <p>Segurança no trabalho dentro da cozinha</p>
+    <p>Segurança no ambiente de cozinha profissional</p>
     <button onclick="iniciarJogo()">Jogar</button>
 </div>
 
-<!-- QUIZ -->
 <div id="quiz-container">
     <div class="card">
         <h2 id="pergunta"></h2>
@@ -142,58 +113,59 @@
 <script>
 const perguntas = [
     {
-        pergunta: "Qual EPI é essencial para evitar queimaduras na cozinha?",
-        opcoes: ["Luvas térmicas", "Boné", "Relógio"],
-        correta: 0
+        pergunta: "Qual EPI evita queimaduras na cozinha?",
+        correta: "Luvas térmicas",
+        opcoes: ["Luvas térmicas", "Relógio", "Brincos", "Pulseira"]
     },
     {
-        pergunta: "O que evita cortes ao manipular facas?",
-        opcoes: ["Luvas de aço ou proteção", "Tecido comum", "Pano de prato"],
-        correta: 0
+        pergunta: "O que evita cortes ao usar facas?",
+        correta: "Luvas de proteção",
+        opcoes: ["Luvas de proteção", "Pano de prato", "Toalha", "Avental comum"]
     },
     {
-        pergunta: "Qual é a função do avental na cozinha?",
-        opcoes: ["Proteger o corpo contra sujeira e calor", "Apenas estética", "Segurar panelas"],
-        correta: 0
+        pergunta: "Qual a função do avental?",
+        correta: "Proteger o corpo contra sujeira e calor",
+        opcoes: ["Apenas estética", "Proteger o corpo contra sujeira e calor", "Decoração", "Identificação de chefe"]
     },
     {
-        pergunta: "Qual atitude é correta ao usar fogão?",
-        opcoes: ["Manter atenção total", "Usar celular ao mesmo tempo", "Deixar desassistido"],
-        correta: 0
+        pergunta: "Qual atitude é correta no fogão?",
+        correta: "Manter atenção total",
+        opcoes: ["Usar celular", "Conversar distraído", "Manter atenção total", "Virar de costas"]
     },
     {
-        pergunta: "Qual EPI protege os pés na cozinha?",
-        opcoes: ["Sapato fechado antiderrapante", "Chinelo", "Sandália"],
-        correta: 0
+        pergunta: "Qual protege os pés na cozinha?",
+        correta: "Sapato antiderrapante fechado",
+        opcoes: ["Chinelo", "Sandália", "Sapato antiderrapante fechado", "Descalço"]
     },
     {
-        pergunta: "Por que prender o cabelo na cozinha?",
-        opcoes: ["Evitar contaminação e acidentes", "Estilo", "Não é necessário"],
-        correta: 0
+        pergunta: "Por que prender o cabelo?",
+        correta: "Evitar contaminação e acidentes",
+        opcoes: ["Moda", "Evitar contaminação e acidentes", "Não precisa", "Para ficar bonito"]
     },
     {
-        pergunta: "O que fazer ao derramar óleo no chão?",
-        opcoes: ["Limpar imediatamente", "Ignorar", "Cobrir com pano seco e deixar"],
-        correta: 0
+        pergunta: "O que fazer ao derramar óleo?",
+        correta: "Limpar imediatamente",
+        opcoes: ["Esperar secar", "Ignorar", "Limpar imediatamente", "Cobrir com pano e deixar"]
     },
     {
-        pergunta: "Qual risco existe ao não usar EPI?",
-        opcoes: ["Acidentes e contaminação", "Mais rapidez", "Nenhum"],
-        correta: 0
+        pergunta: "Qual risco de não usar EPI?",
+        correta: "Acidentes e contaminação",
+        opcoes: ["Mais rapidez", "Acidentes e contaminação", "Nenhum risco", "Menos trabalho"]
     },
     {
-        pergunta: "Qual é o objetivo da segurança do trabalho?",
-        opcoes: ["Prevenir acidentes", "Aumentar velocidade", "Reduzir higiene"],
-        correta: 0
+        pergunta: "Objetivo da segurança do trabalho?",
+        correta: "Prevenir acidentes",
+        opcoes: ["Aumentar riscos", "Prevenir acidentes", "Reduzir higiene", "Aumentar bagunça"]
     },
     {
-        pergunta: "Na cozinha, o que deve ser evitado?",
-        opcoes: ["Brincadeiras e distrações", "Organização", "Higiene"],
-        correta: 0
+        pergunta: "O que evitar na cozinha?",
+        correta: "Distrações e brincadeiras",
+        opcoes: ["Organização", "Higiene", "Distrações e brincadeiras", "Trabalho em equipe"]
     }
 ];
 
 let atual = 0;
+let respostaCorreta = "";
 
 function iniciarJogo() {
     document.getElementById("tela-inicial").style.display = "none";
@@ -201,34 +173,42 @@ function iniciarJogo() {
     carregarPergunta();
 }
 
+function embaralhar(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
 function carregarPergunta() {
     let p = perguntas[atual];
     document.getElementById("pergunta").innerText = p.pergunta;
 
-    let opcoesDiv = document.getElementById("opcoes");
-    opcoesDiv.innerHTML = "";
-    document.getElementById("feedback").innerText = "";
+    let opcoes = embaralhar([...p.opcoes]);
+    respostaCorreta = p.correta;
+
+    let letras = ["A", "B", "C", "D"];
+    let container = document.getElementById("opcoes");
+
+    container.innerHTML = "";
+    document.getElementById("feedback").innerHTML = "";
     document.getElementById("btn-proxima").style.display = "none";
 
-    p.opcoes.forEach((opcao, index) => {
-        let btn = document.createElement("div");
-        btn.classList.add("opcao");
-        btn.innerText = opcao;
-        btn.onclick = () => verificarResposta(index);
-        opcoesDiv.appendChild(btn);
+    opcoes.forEach((opcao, index) => {
+        let div = document.createElement("div");
+        div.classList.add("opcao");
+        div.innerText = letras[index] + ") " + opcao;
+
+        div.onclick = () => verificarResposta(opcao);
+        container.appendChild(div);
     });
 }
 
 function verificarResposta(resposta) {
-    let p = perguntas[atual];
     let feedback = document.getElementById("feedback");
 
-    if(resposta === p.correta) {
+    if(resposta === respostaCorreta) {
         feedback.innerHTML = "✔ Vocês acertaram!";
         feedback.className = "certo";
     } else {
-        feedback.innerHTML = "✘ Vocês erraram! A resposta correta é: " 
-        + p.opcoes[p.correta];
+        feedback.innerHTML = "✘ Vocês erraram! A resposta correta é: " + respostaCorreta;
         feedback.className = "errado";
     }
 
@@ -242,7 +222,7 @@ function proximaPergunta() {
         carregarPergunta();
     } else {
         document.getElementById("quiz-container").innerHTML =
-        "<div class='card'><h2>Fim do jogo!</h2><p>Boa! Vocês aprenderam sobre EPIs na gastronomia.</p></div>";
+        "<div class='card'><h2>Fim do jogo!</h2><p>Boa! Vocês aprenderam EPIs na gastronomia.</p></div>";
     }
 }
 </script>
