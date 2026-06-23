@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Quiz EPIs na Gastronomia</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #1f1f2e, #2c3e50);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 700px;
+        background: rgba(255,255,255,0.08);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px);
+        animation: fadeIn 0.6s ease;
+    }
+
+    h1, h2 {
+        text-align: center;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.03);
+    }
+
+    .start-btn {
+        background: #27ae60;
+        color: white;
+        font-size: 18px;
+    }
+
+    .option {
+        background: #ecf0f1;
+        color: black;
+    }
+
+    .option:hover {
+        background: #dcdde1;
+    }
+
+    .correct {
+        background: #2ecc71 !important;
+        color: white;
+    }
+
+    .wrong {
+        background: #e74c3c !important;
+        color: white;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .feedback {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 18px;
+        animation: pop 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0; transform: scale(0.9);}
+        to {opacity: 1; transform: scale(1);}
+    }
+
+    @keyframes pop {
+        0% {transform: scale(0.7); opacity: 0;}
+        100% {transform: scale(1); opacity: 1;}
+    }
+
+    .fade-out {
+        animation: fadeOut 0.3s forwards;
+    }
+
+    @keyframes fadeOut {
+        to {opacity: 0; transform: scale(0.95);}
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- TELA INICIAL -->
+    <div id="start-screen">
+        <h1>Quiz de EPIs na Gastronomia</h1>
+        <p style="text-align:center;">
+            A turma irá responder juntos sobre segurança na cozinha profissional.
+        </p>
+        <button class="start-btn" onclick="startGame()">JOGAR</button>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quiz-screen" class="hidden">
+        <h2 id="question"></h2>
+        <div id="options"></div>
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <!-- FINAL -->
+    <div id="end-screen" class="hidden">
+        <h1>Fim do Quiz</h1>
+        <p id="result" style="text-align:center;"></p>
+        <button class="start-btn" onclick="location.reload()">Jogar novamente</button>
+    </div>
+
+</div>
+
+<script>
+const questions = [
+    {
+        q: "Qual EPI é obrigatório para evitar queimaduras nas mãos na cozinha?",
+        options: ["Luvas térmicas", "Boné", "Máscara facial", "Avental comum"],
+        correct: 0
+    },
+    {
+        q: "Qual a função do avental na cozinha?",
+        options: ["Proteger roupas e corpo", "Decorar o uniforme", "Substituir luvas", "Esquentar o corpo"],
+        correct: 0
+    },
+    {
+        q: "Qual EPI protege contra cortes?",
+        options: ["Luvas anticorte", "Óculos", "Touca", "Máscara"],
+        correct: 0
+    },
+    {
+        q: "Por que usar touca na cozinha?",
+        options: ["Evitar queda de cabelo nos alimentos", "Evitar calor", "Estilo", "Proteção contra fogo"],
+        correct: 0
+    },
+    {
+        q: "Qual EPI protege os olhos?",
+        options: ["Óculos de proteção", "Avental", "Luvas", "Sapato fechado"],
+        correct: 0
+    },
+    {
+        q: "Qual é a principal função dos EPIs?",
+        options: ["Proteger o trabalhador", "Aumentar velocidade", "Decorar uniforme", "Substituir higiene"],
+        correct: 0
+    },
+    {
+        q: "Qual item evita escorregões na cozinha?",
+        options: ["Sapato antiderrapante", "Chinelo", "Boné", "Luvas de tecido"],
+        correct: 0
+    },
+    {
+        q: "Máscara na cozinha serve para:",
+        options: ["Evitar contaminação dos alimentos", "Esquentar o rosto", "Decoração", "Substituir touca"],
+        correct: 0
+    },
+    {
+        q: "Qual EPI ajuda na higiene pessoal do cozinheiro?",
+        options: ["Touca", "Relógio", "Colar", "Brinco"],
+        correct: 0
+    },
+    {
+        q: "O que pode acontecer se não usar EPIs?",
+        options: ["Acidentes e contaminação", "Mais rapidez", "Mais sabor na comida", "Nada acontece"],
+        correct: 0
+    }
+];
+
+let current = 0;
+let score = 0;
+
+function startGame() {
+    document.getElementById("start-screen").classList.add("hidden");
+    document.getElementById("quiz-screen").classList.remove("hidden");
+    showQuestion();
+}
+
+function showQuestion() {
+    const q = questions[current];
+    document.getElementById("question").innerText = q.q;
+
+    const optionsDiv = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
+
+    feedback.innerText = "";
+    optionsDiv.innerHTML = "";
+
+    q.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.classList.add("option");
+        btn.onclick = () => checkAnswer(index, btn);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(index, btn) {
+    const q = questions[current];
+    const buttons = document.querySelectorAll(".option");
+    const feedback = document.getElementById("feedback");
+
+    buttons.forEach(b => b.disabled = true);
+
+    if (index === q.correct) {
+        btn.classList.add("correct");
+        feedback.innerHTML = "✔ Resposta correta!";
+        score++;
+    } else {
+        btn.classList.add("wrong");
+        buttons[q.correct].classList.add("correct");
+        feedback.innerHTML = "❌ Vocês erraram! A resposta correta é: " + q.options[q.correct];
+    }
+
+    setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+            showQuestion();
+        } else {
+            endGame();
+        }
+    }, 1500);
+}
+
+function endGame() {
+    document.getElementById("quiz-screen").classList.add("hidden");
+    document.getElementById("end-screen").classList.remove("hidden");
+
+    document.getElementById("result").innerText =
+        "Vocês acertaram " + score + " de " + questions.length + " perguntas.";
+}
+</script>
+
+</body>
+  </html>
