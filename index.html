@@ -2,14 +2,14 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Quiz EPIs - Gastronomia</title>
+<title>Quiz EPIs Gastronomia</title>
 
 <style>
     body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background: radial-gradient(circle at top, #1b1b1b, #000);
-        color: #f5f5f5;
+        background: linear-gradient(160deg, #0f172a, #111827);
+        color: #e5e7eb;
         height: 100vh;
         display: flex;
         justify-content: center;
@@ -17,65 +17,29 @@
         overflow: hidden;
     }
 
-    /* brilho suave fundo */
-    body::before {
-        content: "";
-        position: absolute;
-        width: 350px;
-        height: 350px;
-        background: rgba(212,175,55,0.12);
-        filter: blur(120px);
-        top: -80px;
-        left: -80px;
-        animation: float 6s infinite alternate;
-    }
-
-    body::after {
-        content: "";
-        position: absolute;
-        width: 400px;
-        height: 400px;
-        background: rgba(255,255,255,0.04);
-        filter: blur(130px);
-        bottom: -120px;
-        right: -120px;
-        animation: float2 7s infinite alternate;
-    }
-
-    @keyframes float {
-        from { transform: translateY(0); }
-        to { transform: translateY(40px); }
-    }
-
-    @keyframes float2 {
-        from { transform: translateY(0); }
-        to { transform: translateY(-40px); }
-    }
-
     .container {
-        position: relative;
         width: 90%;
         max-width: 750px;
-        background: rgba(25,25,25,0.9);
-        border: 1px solid rgba(212,175,55,0.25);
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 0 40px rgba(0,0,0,0.8);
-        backdrop-filter: blur(10px);
-        animation: fadeIn 0.5s ease;
+        background: rgba(17,24,39,0.9);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 14px;
+        padding: 28px;
+        box-shadow: 0 0 35px rgba(0,0,0,0.6);
+        animation: fadeIn 0.4s ease;
     }
 
     h1 {
         text-align: center;
-        color: #d4af37;
+        font-size: 22px;
         margin-bottom: 10px;
-        font-size: 24px;
+        color: #60a5fa;
     }
 
     h2 {
         text-align: center;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: normal;
+        opacity: 0.9;
     }
 
     button {
@@ -83,60 +47,55 @@
         padding: 12px;
         margin: 8px 0;
         border-radius: 10px;
-        border: 1px solid rgba(212,175,55,0.25);
+        border: 1px solid rgba(255,255,255,0.1);
         background: rgba(255,255,255,0.05);
-        color: white;
+        color: #e5e7eb;
         cursor: pointer;
-        transition: 0.3s;
+        transition: 0.25s;
         font-size: 15px;
     }
 
     button:hover {
         transform: scale(1.02);
-        border-color: #d4af37;
-        background: rgba(212,175,55,0.1);
+        background: rgba(96,165,250,0.15);
+        border-color: #60a5fa;
     }
 
     .start-btn {
-        background: #d4af37;
-        color: black;
+        background: #60a5fa;
+        color: #0f172a;
         font-weight: bold;
+        border: none;
     }
 
     .start-btn:hover {
-        background: #f1c94c;
+        background: #93c5fd;
     }
 
     .correct {
-        background: rgba(46,204,113,0.25) !important;
-        border-color: #2ecc71 !important;
+        background: rgba(34,197,94,0.25) !important;
+        border-color: #22c55e !important;
     }
 
     .wrong {
-        background: rgba(231,76,60,0.25) !important;
-        border-color: #e74c3c !important;
+        background: rgba(239,68,68,0.25) !important;
+        border-color: #ef4444 !important;
     }
 
     .feedback {
         text-align: center;
-        margin-top: 15px;
+        margin-top: 12px;
         font-size: 16px;
-        color: #d4af37;
-        animation: pop 0.3s ease;
+        color: #93c5fd;
+        min-height: 20px;
     }
 
     .hidden { display: none; }
 
     @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.97); }
-        to { opacity: 1; transform: scale(1); }
+        from {opacity: 0; transform: scale(0.98);}
+        to {opacity: 1; transform: scale(1);}
     }
-
-    @keyframes pop {
-        from { transform: scale(0.8); opacity: 0; }
-        to { transform: scale(1); opacity: 1; }
-    }
-
 </style>
 </head>
 
@@ -147,8 +106,8 @@
     <!-- TELA INICIAL -->
     <div id="start-screen">
         <h1>Quiz – EPIs na Gastronomia</h1>
-        <h2>Atividade em grupo sobre segurança em cozinha profissional</h2>
-        <button class="start-btn" onclick="startGame()">Começar</button>
+        <h2>Atividade em grupo sobre segurança na cozinha profissional</h2>
+        <button class="start-btn" onclick="startGame()">Iniciar</button>
     </div>
 
     <!-- QUIZ -->
@@ -160,9 +119,9 @@
 
     <!-- FINAL -->
     <div id="end-screen" class="hidden">
-        <h1>Resultado Final</h1>
+        <h1>Resultado</h1>
         <p id="result" style="text-align:center;"></p>
-        <button class="start-btn" onclick="location.reload()">Jogar novamente</button>
+        <button class="start-btn" onclick="location.reload()">Reiniciar</button>
     </div>
 
 </div>
@@ -172,53 +131,53 @@
 const questions = [
     {
         q: "Em uma cozinha profissional, qual EPI é indispensável ao lidar com óleo quente?",
-        options: ["Luvas térmicas", "Luvas descartáveis", "Pano de prato", "Luvas de tecido fino"],
-        correct: 0
+        options: ["Luvas térmicas", "Pano de prato", "Luvas descartáveis", "Luvas de tecido fino"],
+        correct: "Luvas térmicas"
     },
     {
-        q: "Qual é a função principal da touca na cozinha?",
-        options: ["Evitar contaminação por cabelo", "Evitar calor", "Padronizar uniforme", "Decoração"],
-        correct: 0
+        q: "Qual é a função da touca na cozinha?",
+        options: ["Evitar cabelo nos alimentos", "Evitar calor", "Decoração", "Aumentar higiene das mãos"],
+        correct: "Evitar cabelo nos alimentos"
     },
     {
-        q: "Qual calçado é obrigatório em cozinha profissional?",
-        options: ["Sapato antiderrapante", "Chinelo", "Sandália aberta", "Tênis de tecido leve"],
-        correct: 0
-    },
-    {
-        q: "Qual situação exige proteção ocular?",
-        options: ["Fritura com óleo quente", "Corte de legumes frios", "Montagem de pratos", "Lavagem de louça"],
-        correct: 0
+        q: "Qual calçado é mais seguro em cozinha profissional?",
+        options: ["Sapato antiderrapante", "Chinelo", "Sandália", "Tênis de tecido leve"],
+        correct: "Sapato antiderrapante"
     },
     {
         q: "O que evita contaminação cruzada?",
-        options: ["Trocar luvas corretamente", "Usar a mesma tábua sempre", "Não lavar mãos", "Misturar alimentos crus e prontos"],
-        correct: 0
+        options: ["Trocar luvas corretamente", "Usar mesma tábua", "Não lavar mãos", "Misturar alimentos"],
+        correct: "Trocar luvas corretamente"
     },
     {
-        q: "Função do avental na cozinha:",
-        options: ["Proteger contra respingos", "Substituir luvas", "Evitar quedas", "Decoração"],
-        correct: 0
+        q: "Qual situação exige proteção ocular?",
+        options: ["Fritura com óleo quente", "Corte de legumes", "Montagem de pratos", "Lavar louça"],
+        correct: "Fritura com óleo quente"
     },
     {
-        q: "Qual prática é correta em cozinha profissional?",
-        options: ["Higienizar mãos constantemente", "Usar anéis", "Usar pulseiras", "Não trocar luvas"],
-        correct: 0
+        q: "Função do avental:",
+        options: ["Proteger contra respingos", "Substituir luvas", "Evitar quedas", "Esquentar corpo"],
+        correct: "Proteger contra respingos"
     },
     {
-        q: "Luvas descartáveis são usadas principalmente para:",
-        options: ["Alimentos prontos", "Limpeza do chão", "Forno quente", "Fritura intensa"],
-        correct: 0
+        q: "Uso correto de higiene:",
+        options: ["Higienizar mãos sempre", "Usar anéis", "Usar pulseiras", "Não trocar luvas"],
+        correct: "Higienizar mãos sempre"
     },
     {
-        q: "Maior risco da falta de EPIs:",
+        q: "Luvas descartáveis são usadas em:",
+        options: ["Alimentos prontos", "Fritura intensa", "Forno", "Limpeza pesada"],
+        correct: "Alimentos prontos"
+    },
+    {
+        q: "Maior risco sem EPI:",
         options: ["Acidentes e contaminação", "Mais velocidade", "Melhor sabor", "Menos trabalho"],
-        correct: 0
+        correct: "Acidentes e contaminação"
     },
     {
-        q: "Qual atitude é proibida na cozinha profissional?",
-        options: ["Usar acessórios pessoais", "Usar uniforme limpo", "Higienizar mãos", "Usar touca"],
-        correct: 0
+        q: "Atitude proibida na cozinha:",
+        options: ["Usar acessórios pessoais", "Usar touca", "Usar uniforme limpo", "Higienizar mãos"],
+        correct: "Usar acessórios pessoais"
     }
 ];
 
@@ -231,6 +190,14 @@ function startGame() {
     showQuestion();
 }
 
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 function showQuestion() {
     const q = questions[current];
     document.getElementById("question").innerText = q.q;
@@ -241,29 +208,37 @@ function showQuestion() {
     feedback.innerText = "";
     optionsDiv.innerHTML = "";
 
-    q.options.forEach((opt, index) => {
+    let shuffled = shuffle([...q.options]);
+
+    shuffled.forEach(opt => {
         const btn = document.createElement("button");
         btn.innerText = opt;
-        btn.onclick = () => checkAnswer(index, btn);
+        btn.onclick = () => checkAnswer(opt, btn);
         optionsDiv.appendChild(btn);
     });
 }
 
-function checkAnswer(index, btn) {
+function checkAnswer(selected, btn) {
     const q = questions[current];
     const buttons = document.querySelectorAll("#options button");
     const feedback = document.getElementById("feedback");
 
     buttons.forEach(b => b.disabled = true);
 
-    if (index === q.correct) {
+    if (selected === q.correct) {
         btn.classList.add("correct");
-        feedback.innerHTML = "✔ Correto!";
+        feedback.innerText = "✔ Correto!";
         score++;
     } else {
         btn.classList.add("wrong");
-        buttons[q.correct].classList.add("correct");
-        feedback.innerHTML = "❌ Vocês erraram! A resposta correta está destacada.";
+
+        buttons.forEach(b => {
+            if (b.innerText === q.correct) {
+                b.classList.add("correct");
+            }
+        });
+
+        feedback.innerText = "❌ Vocês erraram! A resposta correta foi destacada.";
     }
 
     setTimeout(() => {
@@ -274,12 +249,12 @@ function checkAnswer(index, btn) {
             document.getElementById("quiz-screen").classList.add("hidden");
             document.getElementById("end-screen").classList.remove("hidden");
             document.getElementById("result").innerText =
-                `Vocês acertaram ${score} de ${questions.length} perguntas.`;
+                `Acertos: ${score} de ${questions.length}`;
         }
-    }, 1400);
+    }, 1200);
 }
 
 </script>
 
 </body>
-</html>
+    </html>
