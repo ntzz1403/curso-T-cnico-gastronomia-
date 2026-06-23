@@ -2,78 +2,119 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Quiz EPIs na Gastronomia</title>
+<title>Quiz Gastronomia Profissional</title>
 
 <style>
     body {
         margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: linear-gradient(135deg, #1f1f2e, #2c3e50);
-        color: white;
+        font-family: "Arial", sans-serif;
+        background: radial-gradient(circle at top, #1a1a1a, #000000);
+        color: #f5f5f5;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
         overflow: hidden;
     }
 
+    /* brilho dourado sutil no fundo */
+    body::before {
+        content: "";
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: rgba(212, 175, 55, 0.15);
+        filter: blur(120px);
+        top: -100px;
+        left: -100px;
+        animation: float 6s infinite alternate;
+    }
+
+    body::after {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: rgba(255, 255, 255, 0.05);
+        filter: blur(140px);
+        bottom: -150px;
+        right: -150px;
+        animation: float2 7s infinite alternate;
+    }
+
+    @keyframes float {
+        from { transform: translateY(0); }
+        to { transform: translateY(40px); }
+    }
+
+    @keyframes float2 {
+        from { transform: translateY(0); }
+        to { transform: translateY(-40px); }
+    }
+
     .container {
+        position: relative;
         width: 90%;
-        max-width: 700px;
-        background: rgba(255,255,255,0.08);
+        max-width: 750px;
+        background: rgba(20,20,20,0.85);
+        border: 1px solid rgba(212, 175, 55, 0.4);
+        border-radius: 18px;
         padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        box-shadow: 0 0 40px rgba(0,0,0,0.8);
         backdrop-filter: blur(10px);
         animation: fadeIn 0.6s ease;
     }
 
-    h1, h2 {
+    h1 {
         text-align: center;
+        color: #d4af37; /* dourado Michelin */
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: normal;
+        font-size: 20px;
     }
 
     button {
         width: 100%;
         padding: 12px;
         margin: 8px 0;
-        border: none;
-        border-radius: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(212,175,55,0.3);
+        background: rgba(255,255,255,0.05);
+        color: #fff;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 15px;
         transition: 0.3s;
     }
 
     button:hover {
-        transform: scale(1.03);
+        transform: scale(1.02);
+        border-color: #d4af37;
+        background: rgba(212,175,55,0.1);
     }
 
     .start-btn {
-        background: #27ae60;
-        color: white;
-        font-size: 18px;
+        background: #d4af37;
+        color: #000;
+        font-weight: bold;
     }
 
-    .option {
-        background: #ecf0f1;
-        color: black;
-    }
-
-    .option:hover {
-        background: #dcdde1;
+    .start-btn:hover {
+        background: #f1c94c;
     }
 
     .correct {
-        background: #2ecc71 !important;
-        color: white;
+        background: rgba(46, 204, 113, 0.3) !important;
+        border-color: #2ecc71 !important;
     }
 
     .wrong {
-        background: #e74c3c !important;
-        color: white;
-    }
-
-    .hidden {
-        display: none;
+        background: rgba(231, 76, 60, 0.3) !important;
+        border-color: #e74c3c !important;
     }
 
     .feedback {
@@ -81,24 +122,19 @@
         margin-top: 15px;
         font-size: 18px;
         animation: pop 0.4s ease;
+        color: #d4af37;
     }
 
+    .hidden { display: none; }
+
     @keyframes fadeIn {
-        from {opacity: 0; transform: scale(0.9);}
-        to {opacity: 1; transform: scale(1);}
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
     }
 
     @keyframes pop {
-        0% {transform: scale(0.7); opacity: 0;}
-        100% {transform: scale(1); opacity: 1;}
-    }
-
-    .fade-out {
-        animation: fadeOut 0.3s forwards;
-    }
-
-    @keyframes fadeOut {
-        to {opacity: 0; transform: scale(0.95);}
+        from { transform: scale(0.7); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
     }
 
 </style>
@@ -110,11 +146,9 @@
 
     <!-- TELA INICIAL -->
     <div id="start-screen">
-        <h1>Quiz de EPIs na Gastronomia</h1>
-        <p style="text-align:center;">
-            A turma irá responder juntos sobre segurança na cozinha profissional.
-        </p>
-        <button class="start-btn" onclick="startGame()">JOGAR</button>
+        <h1>QUIZ GASTRONOMIA PROFISSIONAL</h1>
+        <h2>Segurança em Cozinhas de Alto Padrão</h2>
+        <button class="start-btn" onclick="startGame()">INICIAR EXPERIÊNCIA</button>
     </div>
 
     <!-- QUIZ -->
@@ -126,9 +160,9 @@
 
     <!-- FINAL -->
     <div id="end-screen" class="hidden">
-        <h1>Fim do Quiz</h1>
+        <h1>AVALIAÇÃO FINALIZADA</h1>
         <p id="result" style="text-align:center;"></p>
-        <button class="start-btn" onclick="location.reload()">Jogar novamente</button>
+        <button class="start-btn" onclick="location.reload()">REINICIAR EXPERIÊNCIA</button>
     </div>
 
 </div>
@@ -136,53 +170,103 @@
 <script>
 const questions = [
     {
-        q: "Qual EPI é obrigatório para evitar queimaduras nas mãos na cozinha?",
-        options: ["Luvas térmicas", "Boné", "Máscara facial", "Avental comum"],
+        q: "Em uma cozinha Michelin, qual EPI é indispensável ao manusear frituras em alta temperatura?",
+        options: [
+            "Luvas térmicas profissionais",
+            "Luvas descartáveis finas",
+            "Pano de algodão úmido",
+            "Nenhuma proteção"
+        ],
         correct: 0
     },
     {
-        q: "Qual a função do avental na cozinha?",
-        options: ["Proteger roupas e corpo", "Decorar o uniforme", "Substituir luvas", "Esquentar o corpo"],
+        q: "Qual a principal função da touca em uma cozinha de alto padrão?",
+        options: [
+            "Garantir padrão de higiene e evitar contaminação",
+            "Apenas estética do uniforme",
+            "Evitar calor na cabeça",
+            "Substituir o uso de máscara"
+        ],
         correct: 0
     },
     {
-        q: "Qual EPI protege contra cortes?",
-        options: ["Luvas anticorte", "Óculos", "Touca", "Máscara"],
+        q: "Em pisos de cozinha profissional, qual é a exigência mais importante?",
+        options: [
+            "Calçado antiderrapante certificado",
+            "Sapato social",
+            "Chinelo fechado",
+            "Qualquer tênis esportivo"
+        ],
         correct: 0
     },
     {
-        q: "Por que usar touca na cozinha?",
-        options: ["Evitar queda de cabelo nos alimentos", "Evitar calor", "Estilo", "Proteção contra fogo"],
+        q: "Em cozinhas de alto nível, o maior risco do óleo quente está relacionado a:",
+        options: [
+            "Queimaduras e respingos graves",
+            "Perda de sabor dos alimentos",
+            "Mudança de textura dos pratos",
+            "Aumento de tempo de preparo"
+        ],
         correct: 0
     },
     {
-        q: "Qual EPI protege os olhos?",
-        options: ["Óculos de proteção", "Avental", "Luvas", "Sapato fechado"],
+        q: "O uso de EPIs em restaurantes Michelin tem como objetivo principal:",
+        options: [
+            "Segurança alimentar e proteção do chef",
+            "Aumentar a velocidade de serviço",
+            "Reduzir custo operacional",
+            "Substituir boas práticas de higiene"
+        ],
         correct: 0
     },
     {
-        q: "Qual é a principal função dos EPIs?",
-        options: ["Proteger o trabalhador", "Aumentar velocidade", "Decorar uniforme", "Substituir higiene"],
+        q: "Qual prática é considerada incorreta em uma cozinha profissional de alto padrão?",
+        options: [
+            "Uso de acessórios pessoais durante o preparo",
+            "Troca constante de luvas",
+            "Higienização das mãos",
+            "Uniforme completo limpo"
+        ],
         correct: 0
     },
     {
-        q: "Qual item evita escorregões na cozinha?",
-        options: ["Sapato antiderrapante", "Chinelo", "Boné", "Luvas de tecido"],
+        q: "Qual EPI ajuda diretamente a evitar contaminação cruzada?",
+        options: [
+            "Luvas descartáveis trocadas corretamente",
+            "Avental decorativo",
+            "Boné casual",
+            "Relógio de pulso"
+        ],
         correct: 0
     },
     {
-        q: "Máscara na cozinha serve para:",
-        options: ["Evitar contaminação dos alimentos", "Esquentar o rosto", "Decoração", "Substituir touca"],
+        q: "Em cozinha Michelin, o avental representa principalmente:",
+        options: [
+            "Proteção contra respingos e padrão profissional",
+            "Substituição de luvas",
+            "Proteção contra quedas",
+            "Elemento de luxo visual apenas"
+        ],
         correct: 0
     },
     {
-        q: "Qual EPI ajuda na higiene pessoal do cozinheiro?",
-        options: ["Touca", "Relógio", "Colar", "Brinco"],
+        q: "Qual o maior risco da falta de EPIs em cozinha profissional?",
+        options: [
+            "Acidentes e contaminação alimentar",
+            "Redução de criatividade culinária",
+            "Aumento de sabor dos pratos",
+            "Melhora na apresentação visual"
+        ],
         correct: 0
     },
     {
-        q: "O que pode acontecer se não usar EPIs?",
-        options: ["Acidentes e contaminação", "Mais rapidez", "Mais sabor na comida", "Nada acontece"],
+        q: "Em serviço de alta gastronomia, o que é absolutamente proibido?",
+        options: [
+            "Uso de anéis, pulseiras ou acessórios",
+            "Uso de touca",
+            "Uso de uniforme limpo",
+            "Higienização constante das mãos"
+        ],
         correct: 0
     }
 ];
@@ -209,7 +293,6 @@ function showQuestion() {
     q.options.forEach((opt, index) => {
         const btn = document.createElement("button");
         btn.innerText = opt;
-        btn.classList.add("option");
         btn.onclick = () => checkAnswer(index, btn);
         optionsDiv.appendChild(btn);
     });
@@ -217,19 +300,19 @@ function showQuestion() {
 
 function checkAnswer(index, btn) {
     const q = questions[current];
-    const buttons = document.querySelectorAll(".option");
+    const buttons = document.querySelectorAll("#options button");
     const feedback = document.getElementById("feedback");
 
     buttons.forEach(b => b.disabled = true);
 
     if (index === q.correct) {
         btn.classList.add("correct");
-        feedback.innerHTML = "✔ Resposta correta!";
+        feedback.innerHTML = "✔ Resposta correta.";
         score++;
     } else {
         btn.classList.add("wrong");
         buttons[q.correct].classList.add("correct");
-        feedback.innerHTML = "❌ Vocês erraram! A resposta correta é: " + q.options[q.correct];
+        feedback.innerHTML = "❌ Vocês erraram. A resposta correta é destacada.";
     }
 
     setTimeout(() => {
@@ -237,19 +320,14 @@ function checkAnswer(index, btn) {
         if (current < questions.length) {
             showQuestion();
         } else {
-            endGame();
+            document.getElementById("quiz-screen").classList.add("hidden");
+            document.getElementById("end-screen").classList.remove("hidden");
+            document.getElementById("result").innerText =
+                `Vocês acertaram ${score} de ${questions.length} questões.`;
         }
     }, 1500);
-}
-
-function endGame() {
-    document.getElementById("quiz-screen").classList.add("hidden");
-    document.getElementById("end-screen").classList.remove("hidden");
-
-    document.getElementById("result").innerText =
-        "Vocês acertaram " + score + " de " + questions.length + " perguntas.";
 }
 </script>
 
 </body>
-  </html>
+    </html>
