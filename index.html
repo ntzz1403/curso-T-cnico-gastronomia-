@@ -2,259 +2,250 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Quiz EPIs Gastronomia</title>
+<title>Jogo de EPIs - Gastronomia</title>
 
 <style>
     body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background: linear-gradient(160deg, #0f172a, #111827);
-        color: #e5e7eb;
+        background: linear-gradient(120deg, #fff3e0, #ffe0b2);
+        overflow-x: hidden;
+    }
+
+    /* Tela inicial */
+    #tela-inicial {
         height: 100vh;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        overflow: hidden;
-    }
-
-    .container {
-        width: 90%;
-        max-width: 750px;
-        background: rgba(17,24,39,0.9);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 14px;
-        padding: 28px;
-        box-shadow: 0 0 35px rgba(0,0,0,0.6);
-        animation: fadeIn 0.4s ease;
-    }
-
-    h1 {
+        background: url('https://images.unsplash.com/photo-1556911220-bff31c812dba') center/cover;
+        color: white;
         text-align: center;
-        font-size: 22px;
-        margin-bottom: 10px;
-        color: #60a5fa;
+        animation: fadeIn 1.5s ease;
     }
 
-    h2 {
-        text-align: center;
-        font-size: 16px;
-        font-weight: normal;
-        opacity: 0.9;
+    #tela-inicial h1 {
+        font-size: 40px;
+        text-shadow: 2px 2px 5px black;
     }
 
     button {
-        width: 100%;
-        padding: 12px;
-        margin: 8px 0;
-        border-radius: 10px;
-        border: 1px solid rgba(255,255,255,0.1);
-        background: rgba(255,255,255,0.05);
-        color: #e5e7eb;
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
         cursor: pointer;
-        transition: 0.25s;
-        font-size: 15px;
+        background: #ff6f00;
+        color: white;
+        border-radius: 10px;
+        transition: 0.3s;
     }
 
     button:hover {
-        transform: scale(1.02);
-        background: rgba(96,165,250,0.15);
-        border-color: #60a5fa;
+        transform: scale(1.05);
+        background: #e65100;
     }
 
-    .start-btn {
-        background: #60a5fa;
-        color: #0f172a;
+    /* Quiz */
+    #quiz-container {
+        display: none;
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .card {
+        background: white;
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+        animation: slideUp 0.5s ease;
+    }
+
+    .opcao {
+        display: block;
+        margin: 10px 0;
+        padding: 10px;
+        background: #fff3e0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .opcao:hover {
+        background: #ffe0b2;
+    }
+
+    #feedback {
+        margin-top: 15px;
         font-weight: bold;
-        border: none;
     }
 
-    .start-btn:hover {
-        background: #93c5fd;
+    .certo {
+        color: green;
+        animation: pulse 0.5s;
     }
 
-    .correct {
-        background: rgba(34,197,94,0.25) !important;
-        border-color: #22c55e !important;
+    .errado {
+        color: red;
+        animation: shake 0.4s;
     }
-
-    .wrong {
-        background: rgba(239,68,68,0.25) !important;
-        border-color: #ef4444 !important;
-    }
-
-    .feedback {
-        text-align: center;
-        margin-top: 12px;
-        font-size: 16px;
-        color: #93c5fd;
-        min-height: 20px;
-    }
-
-    .hidden { display: none; }
 
     @keyframes fadeIn {
-        from {opacity: 0; transform: scale(0.98);}
-        to {opacity: 1; transform: scale(1);}
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+
+    @keyframes slideUp {
+        from {transform: translateY(30px); opacity: 0;}
+        to {transform: translateY(0); opacity: 1;}
+    }
+
+    @keyframes pulse {
+        0% {transform: scale(1);}
+        50% {transform: scale(1.1);}
+        100% {transform: scale(1);}
+    }
+
+    @keyframes shake {
+        0% {transform: translateX(0);}
+        25% {transform: translateX(-5px);}
+        50% {transform: translateX(5px);}
+        75% {transform: translateX(-5px);}
+        100% {transform: translateX(0);}
     }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- TELA INICIAL -->
+<div id="tela-inicial">
+    <h1>Jogo de EPIs na Gastronomia</h1>
+    <p>Segurança no trabalho dentro da cozinha</p>
+    <button onclick="iniciarJogo()">Jogar</button>
+</div>
 
-    <!-- TELA INICIAL -->
-    <div id="start-screen">
-        <h1>Quiz – EPIs na Gastronomia</h1>
-        <h2>Atividade em grupo sobre segurança na cozinha profissional</h2>
-        <button class="start-btn" onclick="startGame()">Iniciar</button>
+<!-- QUIZ -->
+<div id="quiz-container">
+    <div class="card">
+        <h2 id="pergunta"></h2>
+        <div id="opcoes"></div>
+        <div id="feedback"></div>
+        <button onclick="proximaPergunta()" id="btn-proxima" style="display:none; margin-top:10px;">
+            Próxima
+        </button>
     </div>
-
-    <!-- QUIZ -->
-    <div id="quiz-screen" class="hidden">
-        <h2 id="question"></h2>
-        <div id="options"></div>
-        <div id="feedback" class="feedback"></div>
-    </div>
-
-    <!-- FINAL -->
-    <div id="end-screen" class="hidden">
-        <h1>Resultado</h1>
-        <p id="result" style="text-align:center;"></p>
-        <button class="start-btn" onclick="location.reload()">Reiniciar</button>
-    </div>
-
 </div>
 
 <script>
-
-const questions = [
+const perguntas = [
     {
-        q: "Em uma cozinha profissional, qual EPI é indispensável ao lidar com óleo quente?",
-        options: ["Luvas térmicas", "Pano de prato", "Luvas descartáveis", "Luvas de tecido fino"],
-        correct: "Luvas térmicas"
+        pergunta: "Qual EPI é essencial para evitar queimaduras na cozinha?",
+        opcoes: ["Luvas térmicas", "Boné", "Relógio"],
+        correta: 0
     },
     {
-        q: "Qual é a função da touca na cozinha?",
-        options: ["Evitar cabelo nos alimentos", "Evitar calor", "Decoração", "Aumentar higiene das mãos"],
-        correct: "Evitar cabelo nos alimentos"
+        pergunta: "O que evita cortes ao manipular facas?",
+        opcoes: ["Luvas de aço ou proteção", "Tecido comum", "Pano de prato"],
+        correta: 0
     },
     {
-        q: "Qual calçado é mais seguro em cozinha profissional?",
-        options: ["Sapato antiderrapante", "Chinelo", "Sandália", "Tênis de tecido leve"],
-        correct: "Sapato antiderrapante"
+        pergunta: "Qual é a função do avental na cozinha?",
+        opcoes: ["Proteger o corpo contra sujeira e calor", "Apenas estética", "Segurar panelas"],
+        correta: 0
     },
     {
-        q: "O que evita contaminação cruzada?",
-        options: ["Trocar luvas corretamente", "Usar mesma tábua", "Não lavar mãos", "Misturar alimentos"],
-        correct: "Trocar luvas corretamente"
+        pergunta: "Qual atitude é correta ao usar fogão?",
+        opcoes: ["Manter atenção total", "Usar celular ao mesmo tempo", "Deixar desassistido"],
+        correta: 0
     },
     {
-        q: "Qual situação exige proteção ocular?",
-        options: ["Fritura com óleo quente", "Corte de legumes", "Montagem de pratos", "Lavar louça"],
-        correct: "Fritura com óleo quente"
+        pergunta: "Qual EPI protege os pés na cozinha?",
+        opcoes: ["Sapato fechado antiderrapante", "Chinelo", "Sandália"],
+        correta: 0
     },
     {
-        q: "Função do avental:",
-        options: ["Proteger contra respingos", "Substituir luvas", "Evitar quedas", "Esquentar corpo"],
-        correct: "Proteger contra respingos"
+        pergunta: "Por que prender o cabelo na cozinha?",
+        opcoes: ["Evitar contaminação e acidentes", "Estilo", "Não é necessário"],
+        correta: 0
     },
     {
-        q: "Uso correto de higiene:",
-        options: ["Higienizar mãos sempre", "Usar anéis", "Usar pulseiras", "Não trocar luvas"],
-        correct: "Higienizar mãos sempre"
+        pergunta: "O que fazer ao derramar óleo no chão?",
+        opcoes: ["Limpar imediatamente", "Ignorar", "Cobrir com pano seco e deixar"],
+        correta: 0
     },
     {
-        q: "Luvas descartáveis são usadas em:",
-        options: ["Alimentos prontos", "Fritura intensa", "Forno", "Limpeza pesada"],
-        correct: "Alimentos prontos"
+        pergunta: "Qual risco existe ao não usar EPI?",
+        opcoes: ["Acidentes e contaminação", "Mais rapidez", "Nenhum"],
+        correta: 0
     },
     {
-        q: "Maior risco sem EPI:",
-        options: ["Acidentes e contaminação", "Mais velocidade", "Melhor sabor", "Menos trabalho"],
-        correct: "Acidentes e contaminação"
+        pergunta: "Qual é o objetivo da segurança do trabalho?",
+        opcoes: ["Prevenir acidentes", "Aumentar velocidade", "Reduzir higiene"],
+        correta: 0
     },
     {
-        q: "Atitude proibida na cozinha:",
-        options: ["Usar acessórios pessoais", "Usar touca", "Usar uniforme limpo", "Higienizar mãos"],
-        correct: "Usar acessórios pessoais"
+        pergunta: "Na cozinha, o que deve ser evitado?",
+        opcoes: ["Brincadeiras e distrações", "Organização", "Higiene"],
+        correta: 0
     }
 ];
 
-let current = 0;
-let score = 0;
+let atual = 0;
 
-function startGame() {
-    document.getElementById("start-screen").classList.add("hidden");
-    document.getElementById("quiz-screen").classList.remove("hidden");
-    showQuestion();
+function iniciarJogo() {
+    document.getElementById("tela-inicial").style.display = "none";
+    document.getElementById("quiz-container").style.display = "block";
+    carregarPergunta();
 }
 
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
+function carregarPergunta() {
+    let p = perguntas[atual];
+    document.getElementById("pergunta").innerText = p.pergunta;
 
-function showQuestion() {
-    const q = questions[current];
-    document.getElementById("question").innerText = q.q;
+    let opcoesDiv = document.getElementById("opcoes");
+    opcoesDiv.innerHTML = "";
+    document.getElementById("feedback").innerText = "";
+    document.getElementById("btn-proxima").style.display = "none";
 
-    const optionsDiv = document.getElementById("options");
-    const feedback = document.getElementById("feedback");
-
-    feedback.innerText = "";
-    optionsDiv.innerHTML = "";
-
-    let shuffled = shuffle([...q.options]);
-
-    shuffled.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.innerText = opt;
-        btn.onclick = () => checkAnswer(opt, btn);
-        optionsDiv.appendChild(btn);
+    p.opcoes.forEach((opcao, index) => {
+        let btn = document.createElement("div");
+        btn.classList.add("opcao");
+        btn.innerText = opcao;
+        btn.onclick = () => verificarResposta(index);
+        opcoesDiv.appendChild(btn);
     });
 }
 
-function checkAnswer(selected, btn) {
-    const q = questions[current];
-    const buttons = document.querySelectorAll("#options button");
-    const feedback = document.getElementById("feedback");
+function verificarResposta(resposta) {
+    let p = perguntas[atual];
+    let feedback = document.getElementById("feedback");
 
-    buttons.forEach(b => b.disabled = true);
-
-    if (selected === q.correct) {
-        btn.classList.add("correct");
-        feedback.innerText = "✔ Correto!";
-        score++;
+    if(resposta === p.correta) {
+        feedback.innerHTML = "✔ Vocês acertaram!";
+        feedback.className = "certo";
     } else {
-        btn.classList.add("wrong");
-
-        buttons.forEach(b => {
-            if (b.innerText === q.correct) {
-                b.classList.add("correct");
-            }
-        });
-
-        feedback.innerText = "❌ Vocês erraram! A resposta correta foi destacada.";
+        feedback.innerHTML = "✘ Vocês erraram! A resposta correta é: " 
+        + p.opcoes[p.correta];
+        feedback.className = "errado";
     }
 
-    setTimeout(() => {
-        current++;
-        if (current < questions.length) {
-            showQuestion();
-        } else {
-            document.getElementById("quiz-screen").classList.add("hidden");
-            document.getElementById("end-screen").classList.remove("hidden");
-            document.getElementById("result").innerText =
-                `Acertos: ${score} de ${questions.length}`;
-        }
-    }, 1200);
+    document.getElementById("btn-proxima").style.display = "block";
 }
 
+function proximaPergunta() {
+    atual++;
+
+    if(atual < perguntas.length) {
+        carregarPergunta();
+    } else {
+        document.getElementById("quiz-container").innerHTML =
+        "<div class='card'><h2>Fim do jogo!</h2><p>Boa! Vocês aprenderam sobre EPIs na gastronomia.</p></div>";
+    }
+}
 </script>
 
 </body>
-    </html>
+</html>
